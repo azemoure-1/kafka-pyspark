@@ -64,5 +64,4 @@ Employ Python Dash to construct data visualization dashboards, enabling the pres
 
 
 
-GDPR Compliance
-In our professional context, our primary focus is on safeguarding our clients from data-related risks. We meticulously adhere to GDPR regulations, including refraining from collecting data on individuals below the age of 18. Additionally, we prioritize securing sensitive client information through encryption or deletion, ultimately ensuring the safety of our users.
+GDPR Compliance In our professional context, our primary focus is protecting our clients from data-related risks. We strictly comply with the regulations of the General Data Protection Regulation (GDPR). Additionally, we prioritize securing sensitive customer information through encryption or deletion, ultimately ensuring the safety of our users.
