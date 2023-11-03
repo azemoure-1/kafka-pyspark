@@ -143,7 +143,7 @@ cassandra_query = transformed_stream.writeStream \
 
 
 
-# -----------------mongodb-----------
+# mongodb
 
 
 mongo_uri = "mongodb://localhost:27017"
