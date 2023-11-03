@@ -5,7 +5,7 @@ from prettytable import PrettyTable
 
 topic = "user_profiles"
 kafka_config = {
-    "bootstrap.servers": "localhost:9092",  # Change this to your Kafka server address
+    "bootstrap.servers": "localhost:9092",
 }
 
 producer = Producer(kafka_config)
@@ -16,10 +16,10 @@ table.field_names = ["Gender", "Name", "Location", "Email", "Username", "Date of
 
 while True:
     try:
-        response = requests.get("https://randomuser.me/api/", timeout=10)  # Adjust the timeout value as needed
+        response = requests.get("https://randomuser.me/api/", timeout=10)
         if response.status_code == 200:
             data = json.loads(response.text)
-            user_data = data["results"][0]  # Assuming there is only one user in the results
+            user_data = data["results"][0]
             gender = user_data["gender"]
             name = f"{user_data['name']['title']} {user_data['name']['first']} {user_data['name']['last']}"
             location = f"{user_data['location']['city']}, {user_data['location']['country']}"
