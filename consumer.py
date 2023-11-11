@@ -101,50 +101,63 @@ kafka_stream = spark.readStream.format("kafka") \
 kafka_stream = kafka_stream.selectExpr("CAST(value AS STRING) as json_value") \
     .select(from_json("json_value", json_schema).alias("data"))
 
+
+
 # Add a generated UUID column
 kafka_stream = kafka_stream.withColumn("id", expr("uuid()"))
 
-# Select the columns for insertion
-transformed_stream = kafka_stream.select(
-    col("id"),
-    col("data.gender"),
-    concat_ws(" ", col("data.name.first"), col("data.name.last")).alias("full_name"),
-    concat_ws(" ", col("data.location.country"), col("data.location.city"), col("data.location.postcode")).alias("adresse"),
-    col("data.email"),
-    (substring_index(col("data.email"), "@", -1)).alias("email_domain"),
-    col("data.login.username").alias("username"),
-    col("data.dob.date").alias("date_of_birth"),
-    col("data.dob.age").alias("age"),
-    col("data.phone"),
-    col("data.cell"),
-    col("data.nat").alias("nationality")
-)
 
-# Chiffrez les données des colonnes avec SHA-256
-transformed_stream = transformed_stream.withColumn("phone", sha2(col("phone"), 256))
-transformed_stream = transformed_stream.withColumn("cell", sha2(col("cell"), 256))
-transformed_stream = transformed_stream.withColumn("email", sha2(col("email"), 256))
+# cassandra
 
+# Define a separate function to save data to Cassandra
+def save_to_cassandra_collection(cassandra_keyspace, cassandra_table, kafka_stream):
+    transformed_stream_cassandra = kafka_stream.select(
+        col("id"),
+        col("data.gender"),
+        concat_ws(" ", col("data.name.first"), col("data.name.last")).alias("full_name"),
+        concat_ws(" ", col("data.location.country"), col("data.location.city"), col("data.location.postcode")).alias("adresse"),
+        col("data.email"),
+        (substring_index(col("data.email"), "@", -1)).alias("email_domain"),
+        col("data.login.username").alias("username"),
+        col("data.dob.date").alias("date_of_birth"),
+        col("data.dob.age").alias("age"),
+        col("data.phone"),
+        col("data.cell"),
+        col("data.nat").alias("nationality")
+    )
 
-# Write the data to Cassandra
-cassandra_write_options = {
-    "keyspace": cassandra_keyspace,
-    "table": cassandra_table,
-}
+    # Chiffrez les données des colonnes avec SHA-256
+    transformed_stream_cassandra = transformed_stream_cassandra.withColumn("phone", sha2(col("phone"), 256))
+    transformed_stream_cassandra = transformed_stream_cassandra.withColumn("cell", sha2(col("cell"), 256))
+    transformed_stream_cassandra = transformed_stream_cassandra.withColumn("email", sha2(col("email"), 256))
 
+    # Write the data to Cassandra
+    cassandra_write_options = {
+        "keyspace": cassandra_keyspace,
+        "table": cassandra_table,
+    }
 
-# Start the Cassandra streaming query
-cassandra_query = transformed_stream.writeStream \
-    .outputMode("append") \
-    .format("org.apache.spark.sql.cassandra") \
-    .option("checkpointLocation", "./checkpoint/data") \
-    .options(**cassandra_write_options) \
-    .start()
+    try:
+        # Start the Cassandra streaming query
+        cassandra_query = transformed_stream_cassandra.writeStream \
+            .outputMode("append") \
+            .format("org.apache.spark.sql.cassandra") \
+            .option("checkpointLocation", "./checkpoint/data_cassandra") \
+            .options(**cassandra_write_options) \
+            .start()
 
+        # Wait for the query to terminate (optional)
+        cassandra_query.awaitTermination()
+
+    except Exception as e:
+        print(f"An error occurred while writing to Cassandra: {e}")
+        # Handle the exception as needed
+
+# Call the function to save data to Cassandra
+save_to_cassandra_collection(cassandra_keyspace, cassandra_table, kafka_stream)
 
 
 # mongodb
-
 
 mongo_uri = "mongodb://localhost:27017"
 mongo_db_name = "users_informations"
