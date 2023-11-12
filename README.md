@@ -16,13 +16,12 @@ Install the required libraries and dependencies for `Spark`, `pyspark`, `Kafka`,
 To install Kafka, follow the [link](https://kafka.apache.org/downloads). In my case, I'm using Kafka version 3.6.0 [link to binary](href="https://downloads.apache.org/kafka/3.6.0/kafka_2.12-3.6.0.tgz).
 
 ## SPARK Installation & Configuration
-Later.
+To install spark, follow the [link]([https://kafka.apache.org/downloads](https://phoenixnap.com/kb/install-spark-on-windows-10)). In my case, I'm using spark version 3.2.4 [link to binary](href="[https://downloads.apache.org/kafka/3.6.0/kafka_2.12-3.6.0.tgz](https://phoenixnap.com/kb/install-spark-on-windows-10)).
+
 
 ## CASSANDRA Installation & Configuration
-For Cassandra, we'll use a Docker image. You can run Cassandra locally by using the following Docker command:
-  ```shell
-    docker run --name cassandra-container -d cassandra:latest
-  ````
+For Cassandra, we'll use a Docker image.
+
 
 
 ![3](https://github.com/azemoure-1/kafka-pyspark/assets/113553607/532a7ecf-d832-4b46-a97c-78341def545e)
