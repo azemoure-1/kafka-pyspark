@@ -13,7 +13,16 @@ In a world where data is considered the new gold, it is imperative for organizat
 Install the required libraries and dependencies for `Spark`, `pyspark`, `Kafka`, and use Docker images for `Cassandra` and `MongoDB`:
 
 ## Kafka Installation & Configuration
-To install Kafka, follow the [link](https://kafka.apache.org/downloads). In my case, I'm using Kafka version 3.6.0 [link to binary](href="https://downloads.apache.org/kafka/3.6.0/kafka_2.12-3.6.0.tgz).
+To install Kafka, follow the [link](https://kafka.apache.org/downloads). In my case, I'm using Kafka version 3.6.0 [link to binary](href="https://downloads.apache.org/kafka/3.6.0/kafka_2.12-3.6.0.tgz). 
+
+command start zookeeper:
+    ```
+    zookeeper-server-start.bat ....\config\zookeeper.properties
+    ```
+command start kafka:
+    ```
+    kafka-server-start.bat ....\config\server.properties
+    ```
 
 ## SPARK Installation & Configuration
 To install spark, follow the [link](https://phoenixnap.com/kb/install-spark-on-windows-10). In my case, I'm using spark version 3.2.4 [link to binary](href="https://spark.apache.org/downloads.html).
@@ -21,6 +30,10 @@ To install spark, follow the [link](https://phoenixnap.com/kb/install-spark-on-w
 
 ## CASSANDRA Installation & Configuration
 For Cassandra, we'll use a Docker image.
+
+
+![5](https://github.com/azemoure-1/kafka-pyspark/assets/113553607/957f1b72-7168-4f8e-8e75-cb368b9cbf30)
+
 
 
 
@@ -32,9 +45,9 @@ For Cassandra, we'll use a Docker image.
 
 ## MONGODB Installation & Configuration
 For MongoDB, we'll use a Docker image as well. You can run MongoDB locally with the following Docker command:
-  ```shell
-    docker run --name mongodb-container -d -p 27017:27017 mongo:latest
-  ````
+
+![6](https://github.com/azemoure-1/kafka-pyspark/assets/113553607/6cd94a8b-4a12-4a49-b832-03bcc9f10f14)
+
 
 
 ![4](https://github.com/azemoure-1/kafka-pyspark/assets/113553607/9e3e63a7-931a-49eb-a8a2-be0ff2c38b70)
