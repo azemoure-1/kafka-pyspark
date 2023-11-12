@@ -59,9 +59,9 @@ For MongoDB, we'll use a Docker image as well. You can run MongoDB locally with 
 Fetches random user data from the API (randomuser) and streams it to a Kafka topic, creating a data pipeline for further processing or analysis.
 
 ## PySpark Consumer using confluent-kafka
-Utilize the provided code to extract data from the Kafka topic "jane__essadi__topic."
+Utilize the provided code to extract data from the Kafka topic "user_profiles"
 Implement data transformations, which encompass parsing, validation, and data enrichment.
-Insert data into Cassandra.
+Insert data into Cassandra "save_to_cassandra_collection" function.
 Execute data aggregation to derive insights, such as the count of users by nationality and the average user age. Store these results in MongoDB through the save_to_mongodb_collection function.
 Configure debugging and monitoring mechanisms to track the pipeline's performance and identify potential issues.
 Develop data visualization dashboards with Python Dash to present aggregated data effectively.
